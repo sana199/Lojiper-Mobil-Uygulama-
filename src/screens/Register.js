@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity, Keyboard } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Input from '../components/Input'
@@ -15,22 +15,22 @@ const Register = ({ navigation }) => {
         password: '',
         confirmPass: '',
         kimlik: '',
-        gender: '',
+        gender: 'Female',
     });
 
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [option, setOption] = useState(null);
+
     const gender = [
         { value: 'Female' },
         { value: 'Male' },
     ];
-   
+
     const validate = () => {
         Keyboard.dismiss();
         let isValid = true;
-
+        console.log(inputs)
         if (!inputs.email) {
             handleError('Please provide an email', 'email');
             isValid = false;
@@ -66,6 +66,7 @@ const Register = ({ navigation }) => {
             isValid = false;
         }
         if (isValid) {
+            console.log(inputs);
             register();
         }
     };
@@ -142,7 +143,7 @@ const Register = ({ navigation }) => {
                         handleError(null, 'kimlik')
                     }}
                 />
-                <RadioButton data={gender} onSelect={(value) => { setOption(value) }} initialVal={gender[0]} />
+                <RadioButton data={gender} onSelect={(value) => { handleOnchange(value, 'gender'); }} initialVal={gender[0]} />
 
                 <Input
                     label="Password"
